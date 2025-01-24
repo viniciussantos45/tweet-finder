@@ -3,8 +3,8 @@ name: Twitter Crypto Sentiment Analysis
 on:
   schedule:
     # Runs every 30 minutes
-    # - cron: "0,30 * * * *"
-    - cron: "*/2 * * * *"
+    - cron: "0,30 * * * *"
+    # - cron: "*/2 * * * *"
   workflow_dispatch:
 
 jobs:
