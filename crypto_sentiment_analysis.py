@@ -4,6 +4,7 @@ from typing import Dict, List
 
 import openai
 import requests
+from dotenv import load_dotenv
 from twilio.rest import Client
 
 
@@ -62,22 +63,24 @@ class AnalysisAgent:
         """
 
         # 1. Basic sentiment analysis using OpenAI
-        prompt = (
-            "You are a highly accurate sentiment analysis engine. "
-            "Determine the sentiment (Positive, Negative, or Neutral) of the following Tweet. "
-            "Then check if it mentions cryptocurrencies. If yes, which ones and how are they mentioned?\n\n"
-            f"Tweet: {tweet_text}\n"
-        )
+        messages = [
+            {"role": "system", "content": "You are a highly accurate sentiment analysis engine."},
+            {"role": "user", "content": (
+                "Determine the sentiment (Positive, Negative, or Neutral) of the following Tweet. "
+                "Then check if it mentions cryptocurrencies. If yes, which ones and how are they mentioned?\n\n"
+                f"Tweet: {tweet_text}\n"
+            )}
+        ]
 
         try:
-            response = openai.Completion.create(
-                engine="text-davinci-003",
-                prompt=prompt,
+            response = openai.ChatCompletion.create(
+                model="gpt-4o-mini",
+                messages=messages,
                 temperature=0.0,
                 max_tokens=100
             )
 
-            analysis = response.choices[0].text.strip()
+            analysis = response.choices[0].message['content'].strip()
             # The analysis could be in plain text; you might parse it further or use ChatCompletion with a structured schema
 
             return {"analysis": analysis}
@@ -85,6 +88,7 @@ class AnalysisAgent:
         except Exception as e:
             print(f"Error calling OpenAI API: {e}")
             return {"analysis": "Error", "error": str(e)}
+
 
 # ===================================
 # 3. DecisionAgent: Decides next action
@@ -124,8 +128,8 @@ class DecisionAgent:
 class WhatsAppMessenger:
     def __init__(self, account_sid: str, auth_token: str, from_whatsapp: str, to_whatsapp: str):
         self.client = Client(account_sid, auth_token)
-        self.from_whatsapp = from_whatsapp
-        self.to_whatsapp = to_whatsapp
+        self.from_whatsapp = f"whatsapp:{from_whatsapp}"
+        self.to_whatsapp = f"whatsapp:{to_whatsapp}"
 
     def send_message(self, body: str):
         try:
@@ -142,6 +146,9 @@ class WhatsAppMessenger:
 # Main script logic
 # ===================================
 def main():
+    # Load environment variables from a .env file
+    load_dotenv()
+    
     # Get environment variables (set in GitHub Actions or locally via .env)
     twitter_bearer_token = os.getenv("TWITTER_BEARER_TOKEN")
     openai_api_key = os.getenv("OPENAI_API_KEY")
@@ -160,6 +167,12 @@ def main():
         from_whatsapp=twilio_whatsapp_from,
         to_whatsapp=whatsapp_to
     )
+
+    # message_body = "Hello from the Crypto Sentiment Analysis bot!"
+    # messenger.send_message(message_body)
+
+    # print(analysis_agent.analyze_tweet("I love Bitcoin and Ethereum!"))
+    # return
 
     # Build a search query for multiple influential figures
     # Example includes Elon Musk and Donald Trump
