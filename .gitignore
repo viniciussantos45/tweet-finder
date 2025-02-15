@@ -1,1 +1,6 @@
 .env
+
+venv
+
+crews/**/__pycache__
+aggregated_report.md

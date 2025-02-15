@@ -1,3 +1,4 @@
+from datetime import datetime
 import os
 import time
 from typing import Dict, List
@@ -6,6 +7,8 @@ import openai
 import requests
 from dotenv import load_dotenv
 from twilio.rest import Client
+
+from crews.crypto_research.src.crypto_research.crew import CryptoResearch
 
 
 # ===================================
@@ -203,4 +206,16 @@ def main():
     print("Analysis complete.")
 
 if __name__ == "__main__":
-    main()
+    # main()
+    inputs = {
+        'topic': 'Crypto Market Analysis',
+        'cryptocurrency': 'Bitcoin',
+        'current_year': str(datetime.now().year)
+    }
+    
+    try:
+        CryptoResearch().crew().kickoff(inputs=inputs)
+    except Exception as e:
+        raise Exception(f"An error occurred while running the crew: {e}")
+
+

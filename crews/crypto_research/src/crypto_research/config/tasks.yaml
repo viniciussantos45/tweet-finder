@@ -1,0 +1,48 @@
+macro_research_task:
+  description: >
+    Conduct comprehensive research on global and regional macroeconomic trends, including GDP, inflation, interest rates, and relevant geopolitical events for the year {current_year}.
+  expected_output: >
+    A list of 10 key points summarizing the main indicators and events that could impact financial markets.
+  agent: macro_economic_agent
+
+crypto_context_task:
+  description: >
+    Analyze the cryptocurrency ecosystem by aggregating information on news, adoption trends, regulatory updates, and market data for the year {current_year}.
+  expected_output: >
+    A summary with 10 highlighted points on the main trends and developments in the crypto space.
+  agent: crypto_context_agent
+
+crypto_specific_task:
+  description: >
+    Investigate the cryptocurrency {cryptocurrency} by evaluating its whitepaper, team, technical updates, on-chain metrics, and community sentiment.
+  expected_output: >
+    A detailed report with 10 key points that highlight the fundamentals, innovations, and performance of {cryptocurrency}.
+  agent: crypto_specific_agent
+
+social_sentiment_task:
+  description: >
+    Monitor and analyze social media and forums to identify sentiment and relevant discussions about cryptocurrencies, with a special focus on {cryptocurrency}.
+  expected_output: >
+    A list with 10 sentiment indicators, including insights on mentions, hashtags, and key influencers.
+  agent: social_sentiment_agent
+
+regulatory_task:
+  description: >
+    Research and monitor regulatory updates and compliance issues affecting the cryptocurrency sector in various regions.
+  expected_output: >
+    A list of 10 regulatory events or changes, accompanied by a brief analysis of their potential market impact.
+  agent: regulatory_agent
+
+technical_analysis_task:
+  description: >
+    Conduct a technical analysis of the general cryptocurrency market and the cryptocurrency {cryptocurrency} using charts, technical indicators (RSI, MACD, moving averages), and identification of candlestick patterns.
+  expected_output: >
+    A report with 10 technical observations that indicate potential market movements.
+  agent: technical_analysis_agent
+
+data_aggregation_task:
+  description: >
+    Consolidate data obtained from all analyses (macroeconomic, crypto context, specific analysis, sentiment, regulatory, and technical) into an integrated dashboard or comprehensive report.
+  expected_output: >
+    A unified dashboard or comprehensive report that aggregates all insights, providing a holistic view of the market scenario.
+  agent: data_aggregator_agent
